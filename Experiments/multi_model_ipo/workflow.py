@@ -34,7 +34,7 @@ def weekly_flow(date):
             save_rejections(libb, rejected_orders)
 
         libb.save_orders(filtered_orders)
-        libb.analyze_sentiment(deep_research_report)
+        libb.analyze_sentiment(deep_research_report, report_type="deep_research_report")
     return
 
 
@@ -47,7 +47,7 @@ def daily_flow(date):
         libb.process_portfolio()
         daily_report, prompt = prompt_daily_report(libb, skeleton)
         libb.save_prompt(prompt)
-        libb.analyze_sentiment(daily_report)
+        libb.analyze_sentiment(daily_report, report_type="daily_report")
         libb.save_daily_update(daily_report)
 
         orders_json = parse_json(daily_report, "ORDERS_JSON")
@@ -68,7 +68,7 @@ def starting_flow(date):
         libb.process_portfolio()
         starting_report, prompt = prompt_starting_report(prompt, libb)
         libb.save_prompt(prompt)
-        libb.analyze_sentiment(starting_report)
+        libb.analyze_sentiment(starting_report, report_type="starting_report")
         libb.save_deep_research(starting_report)
 
         orders_json = parse_json(starting_report, "ORDERS_JSON")
