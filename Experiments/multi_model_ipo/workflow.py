@@ -58,7 +58,6 @@ def daily_flow(date):
         libb.save_orders(filtered_orders)
     return
 
-"""
 def main():
     day_num = TODAY.weekday()
 
@@ -69,9 +68,8 @@ def main():
         print("Regular Weekday: Running Daily Flow...")
         daily_flow(TODAY) # Mon-Thursday (Non trading days will be logged)
     print("Success!")
-    """
 
-def main():
+def testing_main():
     # TODO: REPLACE FILLER DATE IN PROMPTS
     # TODO: ADD REAL DATE
     start_date = pd.Timestamp("2026-05-18")
@@ -90,4 +88,4 @@ def main():
         print("Success!")
 
 if __name__ == "__main__":
-    main()
+    testing_main()
