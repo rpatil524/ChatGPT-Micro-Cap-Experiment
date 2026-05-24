@@ -803,7 +803,7 @@ def build_eligibility_series(
         data = get_polygon_details(t)
 
         if not data:
-            lines.append(f"{t} | NO_DATA | BUY_BLOCKED")
+            lines.append(f"{t} | NO_DATA | BUY_BLOCKED | NOT_ELIGIBLE")
             continue
 
         listing = parse_date(
@@ -811,10 +811,15 @@ def build_eligibility_series(
         )
 
         if not listing:
-            lines.append(f"{t} | NO_DATE | BUY_BLOCKED")
+            lines.append(f"{t} | NO_DATE | BUY_BLOCKED | NOT_ELIGIBLE")
             continue
 
         ipo_ok = listing >= cutoff
+        if ipo_ok:
+            eligibility = pd.Timestamp(cutoff) - pd.Timestamp(listing)
+            eligibility = str(eligibility)
+        else:
+            eligibility = "NOT_ELIGIBLE"
 
         mcap = pull_polygon_market_cap(data)
         mcap_ok = (
@@ -832,6 +837,7 @@ def build_eligibility_series(
             f"{t} | "
             f"IPO_OK={ipo_ok} | "
             f"MCAP={mcap} | "
+            f"DAYS_ELIGIBILITY_LEFT={eligibility}"
             f"{status}"
         )
 
