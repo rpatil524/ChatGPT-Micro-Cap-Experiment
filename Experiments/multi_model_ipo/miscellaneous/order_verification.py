@@ -17,6 +17,7 @@ from urllib3.util.retry import Retry
 
 from libb.execution.get_market_data import download_data_on_given_date
 from ..prompt_orchestration.get_prompt_data.fetching import fmp_endpoint
+from ..prompt_orchestration.get_prompt_data.utilities import safe_float
 
 TODAY = _dt.date.today()
 
@@ -97,27 +98,6 @@ _init_db()
 # HELPERS
 # =========================================================
 
-def _normalize_ticker(ticker: str) -> str:
-    return (ticker or "").upper().strip()
-
-
-def _safe_float(x: Any) -> float | None:
-    try:
-        if x is None or x == "":
-            return None
-        return float(x)
-    except (TypeError, ValueError):
-        return None
-
-
-def _safe_int(x: Any) -> int | None:
-    try:
-        if x is None or x == "":
-            return None
-        return int(float(x))
-    except (TypeError, ValueError):
-        return None
-
 
 def _parse_date(value: Any) -> _dt.date | None:
     if value is None or value == "":
@@ -185,7 +165,7 @@ def _calculate_market_cap(
     share_count = share_count_data["outstandingShares"]
 
     order_type = (order.get("order_type", "MARKET") or "MARKET").upper()
-    limit_price = _safe_float(order.get("limit_price")) or 0.0
+    limit_price = safe_float(order.get("limit_price")) or 0.0
 
     if order_type == "LIMIT":
         return share_count * limit_price
@@ -194,7 +174,7 @@ def _calculate_market_cap(
     else:
         try:
             ticker_data = download_data_on_given_date(ticker, TODAY)
-            price = _safe_float(ticker_data.get("Open"))
+            price = safe_float(ticker_data.get("Open"))
         except Exception:
             price = 0.0
 
