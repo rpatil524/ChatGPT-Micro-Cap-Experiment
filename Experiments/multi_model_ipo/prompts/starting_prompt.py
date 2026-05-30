@@ -272,7 +272,7 @@ def create_starting_prompt():
    macro_news = get_macro_news()
 
    ipo_universe = get_ipo_universe(max_results=15)
-   ipo_universe_eligibility = build_eligibility_series_from_universe(ipo_universe)
+   ipo_universe_eligibility = build_eligibility_series(ipo_universe)
    ipo_universe_string = format_universe_for_prompt(ipo_universe)
 
    prompt = (

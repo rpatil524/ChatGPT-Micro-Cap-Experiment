@@ -286,7 +286,7 @@ def assemble_deep_research_prompt_skeleton() -> str:
     ipo_universe = get_ipo_universe()
     formatted_ipo_universe = format_universe_for_prompt(ipo_universe)
 
-    ipo_universe_eligibility = build_eligibility_series_from_universe(ipo_universe)
+    ipo_universe_eligibility = build_eligibility_series(ipo_universe)
 
     # Normalize IPO universe formatting (prevents model confusion)
     if hasattr(ipo_universe, "to_string"):
